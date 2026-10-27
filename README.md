@@ -5,7 +5,7 @@ Vite + React frontend with a Node serverless API (`/api/hello`), built as a quic
 ## What this is
 
 - Vite + React + TypeScript frontend (`src/`) that fetches `/api/hello` and renders the response, plus `VITE_APP_NAME` as the page heading.
-- `api/hello.js`: a Vercel Node Serverless Function returning `{ message, time }`. `message` comes from env var `GREETING` (default `Hello from the Vercel API`).
+- `api/hello.mjs`: a Vercel Node Serverless Function returning `{ message, time }`. `message` comes from env var `GREETING` (default `Hello from the Vercel API`).
 - CI (`.github/workflows/ci.yml`, design in `docs/ci-design.md`): jobs `lint` and `test` (tests + build) on every pull request and push to `main`.
 
 ## Prerequisites
@@ -62,15 +62,15 @@ dist/assets/index-D-5tJ_Nc.js  220.04 kB │ gzip: 68.83 kB
 ✓ built in 61ms
 ```
 
-Calling the API handler directly with a stub response object (an inline ES module piped to `node`, importing `api/hello.js`; `vercel dev` was NOT run):
+Calling the API handler directly with a stub response object (an inline ES module piped to `node`, importing `api/hello.mjs`; `vercel dev` was NOT run):
 
 ```
-$ echo "import h from './api/hello.js'; h({}, {status(c){console.log('status',c);return this},json(b){console.log(JSON.stringify(b))}})" | node --input-type=module
+$ echo "import h from './api/hello.mjs'; h({}, {status(c){console.log('status',c);return this},json(b){console.log(JSON.stringify(b))}})" | node --input-type=module
 status 200
-{"message":"Hello from the Vercel API","time":"2026-10-27T13:46:56.482Z"}
-$ echo "import h from './api/hello.js'; h({}, {status(c){console.log('status',c);return this},json(b){console.log(JSON.stringify(b))}})" | GREETING="Hi from env" node --input-type=module
+{"message":"Hello from the Vercel API","time":"2026-10-27T14:22:53.959Z"}
+$ echo "import h from './api/hello.mjs'; h({}, {status(c){console.log('status',c);return this},json(b){console.log(JSON.stringify(b))}})" | GREETING="Hi from env" node --input-type=module
 status 200
-{"message":"Hi from env","time":"2026-10-27T13:46:56.508Z"}
+{"message":"Hi from env","time":"2026-10-27T14:22:53.987Z"}
 ```
 
 ## Deploying to Vercel
@@ -82,3 +82,7 @@ status 200
 3. Environment variables (set for both **Preview** and **Production**): `VITE_APP_NAME`, `GREETING`. `VITE_*` vars are baked in at build time, so redeploy after changing them.
 4. Preview vs production: every PR/branch push gets a Preview deployment URL; pushes to `main` deploy to Production.
 5. Rollback: in the project's Deployments tab, pick a previous good production deployment and choose **Instant Rollback** / **Promote to Production**.
+
+## Conventions
+
+JavaScript files use `.mjs` by convention (TypeScript stays `.ts`/`.tsx`).

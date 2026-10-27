@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import handler from './hello.js'
+import handler from './hello.mjs'
 
 function mockRes() {
   return {
