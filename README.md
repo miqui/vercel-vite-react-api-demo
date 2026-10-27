@@ -10,7 +10,7 @@ Vite + React frontend with a Node serverless API (`/api/hello`), built as a quic
 
 ## Prerequisites
 
-- Node.js >= 22 (LTS) and npm
+- Node.js ^22.22.2, ^24.15.0 or >=26 (matches `engines`) and npm
 - Optional: Vercel CLI (`npm i -g vercel`) for running the API locally
 
 ## Local dev
@@ -62,15 +62,15 @@ dist/assets/index-D-5tJ_Nc.js  220.04 kB │ gzip: 68.83 kB
 ✓ built in 61ms
 ```
 
-Calling the API handler directly with a stub response object (a small script, `run.mjs`, importing `api/hello.js`; `vercel dev` was NOT run):
+Calling the API handler directly with a stub response object (an inline ES module piped to `node`, importing `api/hello.js`; `vercel dev` was NOT run):
 
 ```
-$ node run.mjs
+$ echo "import h from './api/hello.js'; h({}, {status(c){console.log('status',c);return this},json(b){console.log(JSON.stringify(b))}})" | node --input-type=module
 status 200
-{"message":"Hello from the Vercel API","time":"2026-10-27T13:32:34.029Z"}
-$ GREETING="Hi from env" node run.mjs
+{"message":"Hello from the Vercel API","time":"2026-10-27T13:46:56.482Z"}
+$ echo "import h from './api/hello.js'; h({}, {status(c){console.log('status',c);return this},json(b){console.log(JSON.stringify(b))}})" | GREETING="Hi from env" node --input-type=module
 status 200
-{"message":"Hi from env","time":"2026-10-27T13:32:34.054Z"}
+{"message":"Hi from env","time":"2026-10-27T13:46:56.508Z"}
 ```
 
 ## Deploying to Vercel

@@ -17,7 +17,7 @@ test('returns default greeting and ISO time', () => {
   handler({}, res)
   assert.equal(res.code, 200)
   assert.equal(res.body.message, 'Hello from the Vercel API')
-  assert.ok(!Number.isNaN(Date.parse(res.body.time)))
+  assert.equal(res.body.time, new Date(res.body.time).toISOString())
 })
 
 test('uses GREETING env var', () => {

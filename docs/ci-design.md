@@ -4,7 +4,7 @@ Workflow: `.github/workflows/ci.yml` (name: CI)
 
 - Triggers: every `pull_request`, and `push` to `main`.
 - Permissions: `contents: read`. No secrets used.
-- Runtime: Node 22 (LTS) via `actions/setup-node` with npm cache; `npm ci`.
+- Runtime: Node 22 (latest 22.x, satisfies `engines` >=22.22.2) via `actions/setup-node` with npm cache; `npm ci`.
 
 | Job (check name) | Steps |
 |---|---|
